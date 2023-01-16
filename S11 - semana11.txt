@@ -1,0 +1,13 @@
+FLUJO DE DATOS
+- asincrona (no trabajan el productor y el consumidor en un mismo tiempo ni espacio)
+- back pressure (quien consume le puede decir al producto con que recurrencia se envian los datos)
+- sin bloqueo (mientras espera que el Thread/Hilo acabe una accion provoca que haga otra mientras)
+(MANIFIESTO REACTIVO) 
+- patron observer ()
+	reactivex.io
+	java : java.util.concurrent .Flow
+		publisher: subscribe() - submit() - close()
+		subscriber: onSubscribe() - onNext() - onError() - onComplete()
+SubmissionPublisher String publisher = new SubmissionPublisher**();
+publisher.subscribe()
+
