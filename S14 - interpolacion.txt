@@ -1,0 +1,66 @@
+//Explotacion de datos PROYECTO MOVIES
+val idNameList = crew							: List [Try[JsValue]]
+	.filter(_.isSuccess)						: List [Try[JsValue]]
+	.map(_.get)							: List [JsValue]
+	.flatMap(_.as[JsArray].value)					: List [JsValue]
+	.map(_as[JsObject])						: List [JsObject]
+	.map(jsOb => (jsObj("id".as[Int], jsObj("name").as[String]))	: List [(Int, String)]
+	.groupBy(identity)						: Map [(Int, String), List[(Int, String)]]
+	.map {
+		case (tuple, list) => (tupla, list.size)
+	}
+	.filter(_._2 > 1)						: Map [((Int, String), Int)]
+	.toList								: List [((Int, String), Int)]
+	.sortBy(_._2)							: List [((Int, String), Int)]
+	.reverse							: List [((Int, String), Int)]
+
+//MANEJO DE BASE DE DATOS
+//desde el nivel mas bajo
+Scala primo hermano de Java
+Java DataBase Connectivity - JDBC
+JDBC estandar, cada base implementa su version
+(clases)	mysql-connector-j    ;    ojdbc 
+
+//scala a sql
+
+//dependencias
+libraryDependences += "org.scalalikejdbc" %% "scalalikejdbc" % "4.0.0",
+libraryDependences += "ch.gos.logback" % "logback-classic" % "1.2.3",
+libraryDependences += "com.mysql" % "mysql-connector-j" % "8.0.31"
+
+(libreria)	ScalalikeJDBC
+//interpolacion 
+sql"""
+create table members {
+	id serial nor null primary key,
+	name varchar(64),
+	created_at timestamp not null
+} 
+""".execute.apply()			-> execute(modificar datos)
+
+sql"select * drom members".map(_.toMap).list.apply()	->list()
+
+//conexion y sesion
+import scalalikejdbc._
+Class.forName(com.mysql.cj.jdbc.Driver")
+ConnectionPool.singleton("jdbc:mysql://localhost:3306/<NombreBaseDatos>", "root", "<contraseña>")
+implicit val session: session: DBSession = AutoSession
+
+//SELECT
+val entities: List[Map[String, Any]] = sql"SELECT * FROM MOVIES m"
+	.map(_.toMap)
+	.list.apply()
+
+//INSERT
+val newRow = ("Adventure Fantasy Action Science Fiction", "1452", "270000000", "391081192", "154", "2006-06-28")
+sql"""
+	INSERT INTO MOVIE(ORIGINAL_TITLE, ID_RAW_DATA, BUDGET, REVENUE, RUNTIME, RELEASE_DATE)
+	VALUES
+	(${newRow._1}, ${newRow._2}, ${newRow._3, ${newRow._4}, ${newRow._5}, ${newRow._6})
+""".stripMargin
+.update
+.apply()
+
+//Limpiando CAST
+//consumir servicio REST
+libraryDependencies
